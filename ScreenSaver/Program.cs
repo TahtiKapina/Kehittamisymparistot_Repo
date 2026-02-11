@@ -30,9 +30,9 @@
                 Raylib.ClearBackground(Raylib_cs.Color.Black);
 
                 float dt = Raylib.GetFrameTime();
-                A += dirA * speed * 3 * dt;
-                B += dirB * speed * dt;
-                C += dirC * speed * dt;
+                A += dirA * speed * 1.23f * dt;
+                B += dirB * speed * 0.86f * dt;
+                C += dirC * speed * 1.52f * dt;
 
                 (A, dirA) = Bounce(A, dirA, radius, screen_width, screen_height);
                 (B, dirB) = Bounce(B, dirB, radius, screen_width, screen_height);
@@ -44,7 +44,7 @@
 
                 Raylib.DrawLineV(A, B, Raylib_cs.Color.Purple);
                 Raylib.DrawLineV(B, C, Raylib_cs.Color.SkyBlue);
-                Raylib.DrawLineV(C, A, Raylib_cs.Color.Brown);
+                Raylib.DrawLineV(C, A, Raylib_cs.Color.Lime);
 
                 Raylib.EndDrawing();
             }

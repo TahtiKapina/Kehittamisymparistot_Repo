@@ -5,8 +5,8 @@
 
     internal class Program
     {
-        int Player1;
-        int Player2;
+        int player1Score = 0;
+        int player2Score = 0;
 
         int PlayerToWall = 60;
         float ballSize = 10;
@@ -33,7 +33,7 @@
             Vector2 ballPosition = Raylib.GetScreenCenter();
             Vector2 ballDirection = Vector2.Normalize(new Vector2(1, 0.5f));
 
-            float ballSpeed = 320;
+            float ballSpeed = 640;
              
 
             while (Raylib.WindowShouldClose() == false)
@@ -41,9 +41,13 @@
                 Raylib.BeginDrawing();
                 Raylib.ClearBackground(Color.Black);
 
+                string scoreText1 = player1Score.ToString();
+                string scoreText2 = $"{player2Score}";
+                Raylib.DrawText(scoreText1, ScreenWidth / 4, 50, 40, Color.White);
+                Raylib.DrawText(scoreText2, (ScreenWidth / 4) * 3, 50, 40, Color.White);
+
                 Raylib.DrawRectangleV(Player1, PlayerSize, Color.Red);
                 Raylib.DrawRectangleV(Player2, PlayerSize, Color.Blue);
-
                 Raylib.DrawCircleV(ballPosition, ballSize, Color.White);
 
                 ballPosition = ballPosition + ballDirection * ballSpeed * Raylib.GetFrameTime();
@@ -61,13 +65,15 @@
                 {
                     if (ballPosition.X - ballSize <= 0.0f)
                     {
-                        ballPosition.X = ballSize;
-                        ballDirection.X = -ballDirection.X;
+                        player2Score++;
+                        ballPosition = Raylib.GetScreenCenter();
+                        ballDirection.X *= -1;
                     }
                     else if (ballPosition.X + ballSize >= ScreenWidth)
                     {
-                        ballPosition.X = ScreenWidth - ballSize;
-                        ballDirection.X = -ballDirection.X;
+                        player1Score++;
+                        ballPosition = Raylib.GetScreenCenter();
+                        ballDirection.X *= -1;
                     }
 
                     if (ballPosition.Y - ballSize <= 0.0f)

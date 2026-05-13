@@ -31,32 +31,93 @@
                 player1.Draw();
                 player2.Draw();
 
+                player1.bullet.Update(walls);
+                player2.bullet.Update(walls);
+
                 bool player1moveing = false;
                 bool player2moveing = false;
 
                 if (Raylib.IsKeyDown(KeyboardKey.W) && player1moveing == false)
                 {
-                    player1.position.Y -= 2;
+                    // Check if moving Up hits a wall
+                    Rectangle nextRect = new Rectangle(player1.position.X - 20, player1.position.Y - 22, 40, 40);
+                    bool hit = false;
+                    foreach (Wall w in walls) if (Raylib.CheckCollisionRecs(nextRect, w.rect)) hit = true;
+
+                    if (!hit) player1.position.Y -= 2;
                     player1.direction = new Vector2(0, -1);
                     player1moveing = true;
                 }
                 if (Raylib.IsKeyDown(KeyboardKey.S) && player1moveing == false)
                 {
-                    player1.position.Y += 2;
+                    Rectangle nextRect = new Rectangle(player1.position.X - 20, player1.position.Y - 18, 40, 40);
+                    bool hit = false;
+                    foreach (Wall w in walls) if (Raylib.CheckCollisionRecs(nextRect, w.rect)) hit = true;
+
+                    if (!hit) player1.position.Y += 2;
                     player1.direction = new Vector2(0, 1);
                     player1moveing = true;
                 }
                 if (Raylib.IsKeyDown(KeyboardKey.A) && player1moveing == false)
                 {
-                    player1.position.X -= 2;
+                    Rectangle nextRect = new Rectangle(player1.position.X - 22, player1.position.Y - 20, 40, 40);
+                    bool hit = false;
+                    foreach (Wall w in walls) if (Raylib.CheckCollisionRecs(nextRect, w.rect)) hit = true;
+
+                    if (!hit) player1.position.X -= 2;
                     player1.direction = new Vector2(-1, 0);
                     player1moveing = true;
                 }
                 if (Raylib.IsKeyDown(KeyboardKey.D) && player1moveing == false)
                 {
-                    player1.position.X += 2;
+                    Rectangle nextRect = new Rectangle(player1.position.X - 18, player1.position.Y - 20, 40, 40);
+                    bool hit = false;
+                    foreach (Wall w in walls) if (Raylib.CheckCollisionRecs(nextRect, w.rect)) hit = true;
+
+                    if (!hit) player1.position.X += 2;
                     player1.direction = new Vector2(1, 0);
                     player1moveing = true;
+                }
+
+                if (Raylib.IsKeyDown(KeyboardKey.Up) && player2moveing == false)
+                {
+                    Rectangle nextRect = new Rectangle(player2.position.X - 20, player2.position.Y - 22, 40, 40);
+                    bool hit = false;
+                    foreach (Wall w in walls) if (Raylib.CheckCollisionRecs(nextRect, w.rect)) hit = true;
+
+                    if (!hit) player2.position.Y -= 2;
+                    player2.direction = new Vector2(0, -1);
+                    player2moveing = true;
+                }
+                if (Raylib.IsKeyDown(KeyboardKey.Down) && player2moveing == false)
+                {
+                    Rectangle nextRect = new Rectangle(player2.position.X - 20, player2.position.Y - 18, 40, 40);
+                    bool hit = false;
+                    foreach (Wall w in walls) if (Raylib.CheckCollisionRecs(nextRect, w.rect)) hit = true;
+
+                    if (!hit) player2.position.Y += 2;
+                    player2.direction = new Vector2(0, 1);
+                    player2moveing = true;
+                }
+                if (Raylib.IsKeyDown(KeyboardKey.Left) && player2moveing == false)
+                {
+                    Rectangle nextRect = new Rectangle(player2.position.X - 22, player2.position.Y - 20, 40, 40);
+                    bool hit = false;
+                    foreach (Wall w in walls) if (Raylib.CheckCollisionRecs(nextRect, w.rect)) hit = true;
+
+                    if (!hit) player2.position.X -= 2;
+                    player2.direction = new Vector2(-1, 0);
+                    player2moveing = true;
+                }
+                if (Raylib.IsKeyDown(KeyboardKey.Right) && player2moveing == false)
+                {
+                    Rectangle nextRect = new Rectangle(player2.position.X - 18, player2.position.Y - 20, 40, 40);
+                    bool hit = false;
+                    foreach (Wall w in walls) if (Raylib.CheckCollisionRecs(nextRect, w.rect)) hit = true;
+
+                    if (!hit) player2.position.X += 2;
+                    player2.direction = new Vector2(1, 0);
+                    player2moveing = true;
                 }
 
                 if (Raylib.IsKeyDown(KeyboardKey.Space))
@@ -67,34 +128,6 @@
                 if (Raylib.IsKeyDown(KeyboardKey.Enter))
                 {
                     player2.Shoot();
-                }
-
-                if (Raylib.IsKeyDown(KeyboardKey.Up) && player2moveing == false)
-                {
-                    player2.position.Y -= 2;
-                    player2.direction = new Vector2(0, -1);
-                    player2moveing = true;
-                }
-
-                if (Raylib.IsKeyDown(KeyboardKey.Down) && player2moveing == false)
-                {
-                    player2.position.Y += 2;
-                    player2.direction = new Vector2(0, 1);
-                    player2moveing = true;
-                }
-
-                if (Raylib.IsKeyDown(KeyboardKey.Left) && player2moveing == false)
-                {
-                    player2.position.X -= 2;
-                    player2.direction = new Vector2(-1, 0);
-                    player2moveing = true;
-                }
-
-                if (Raylib.IsKeyDown(KeyboardKey.Right) && player2moveing == false)
-                {
-                    player2.position.X += 2;
-                    player2.direction = new Vector2(1, 0);
-                    player2moveing = true;
                 }
 
                 Raylib.EndDrawing();
@@ -181,7 +214,10 @@
 
             public void Draw()
             {
-                if (active) Raylib.DrawCircleV(pos, 5, Color.Yellow);
+                if (active)
+                {
+                    Raylib.DrawCircleV(pos, 5, Color.Magenta);
+                }
             }
         }
 
